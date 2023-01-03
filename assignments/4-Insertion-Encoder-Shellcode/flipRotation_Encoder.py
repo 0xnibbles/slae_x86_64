@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# The FlipRoter Shellcode decoder
+# The FlipRotation Shellcode decoder
 #
 # Rotates back and flips the lowest bit of each byte.
 #
@@ -31,7 +31,7 @@ def banner():
     print('''
         
         _______________________________________________________________
-         <The "FlipRoter" Encoder - Bit flip and rotate your shellcode
+         <The "FlipRotation" Encoder - Bit flip and rotate your shellcode
         ---------------------------------------------------------------
             \   ^__^
             \   (oo)\_______

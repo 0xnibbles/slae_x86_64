@@ -7,7 +7,6 @@ Version: 1.0
 
 import argparse
 import binascii
-import os
 
 parser = argparse.ArgumentParser(description='[*] Reverting ascii strings into Intel 64-bit hex format.')
 parser.add_argument('string', metavar='string', type=ascii, help='The string to be converted')
@@ -50,8 +49,9 @@ _____________________________________________
 
 #----------------------------
 
-string = args.string[1:-1]+ os.linesep
-print(string)
+string = args.string[1:-1].decode('string_escape')
+
+
 
 #---------------------
 '''
@@ -74,13 +74,14 @@ else:
 # Find if the string ahs slashes and append it if needs to align it
 # if finds a slash appends in that idnex position. if not adds to the beginning of the string
 
+'''
 if input_remainder > 0:
         index = find_slashes(string)
         if index  > -1:
             string = string[:index] + (8-input_remainder)*'/' + string[index:]
         else:
             string = string + ((8-input_remainder)*'/')
-
+'''
 print("[*] Final String: {}\n".format(string))
 
 print("[*] Converting it ...\n")
@@ -90,6 +91,7 @@ stringList= [string[index:index+8] for index in range(0,len(string),8)]
 # revert and output string in qword groups with hex values
 
 print("* * * * * * * * * *\n") 
+
 for qword in stringList[::-1]:
   
     print(qword[::-1]+ ' : 0x'+ str(binascii.hexlify(qword[::-1].encode('utf-8')),'ascii'))

